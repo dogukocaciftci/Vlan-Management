@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VLAN Management</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        async function createVlan() {
+            const ip = document.getElementById("ip").value;
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const vlan_id = document.getElementById("vlan_id").value;
+            const vlan_name = document.getElementById("vlan_name").value;
+            const interfaceName = document.getElementById("interface").value;
+            
+            const response = await fetch('/vlan', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ip: ip,
+                    username: username,
+                    password: password,
+                    vlan_id: vlan_id,
+                    vlan_name: vlan_name,
+                    interface: interfaceName
+                })
+            });
+            
+            const result = await response.json();
+            document.getElementById("result").innerText = JSON.stringify(result, null, 2);
+        }
+
+        async function deleteVlan() {
+            const ip = document.getElementById("ip").value;
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const vlan_id = document.getElementById("vlan_id").value;
+            
+            const response = await fetch('/vlan', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ip: ip,
+                    username: username,
+                    password: password,
+                    vlan_id: vlan_id
+                })
+            });
+            
+            const result = await response.json();
+            document.getElementById("result").innerText = JSON.stringify(result, null, 2);
+        }
+
+        async function listVlans() {
+            const ip = document.getElementById("ip").value;
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            
+            const response = await fetch('/vlans', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ip: ip,
+                    username: username,
+                    password: password
+                })
+            });
+            
+            const result = await response.json();
+            document.getElementById("result").innerText = JSON.stringify(result, null, 2);
+        }
+    </script>
+</head>
+<body>
+    <header>
+        VLAN Management System
+    </header>
+    <div class="container">
+        <form onsubmit="event.preventDefault(); createVlan();">
+            <label for="ip">IP Address:</label>
+            <input type="text" id="ip" name="ip" value="192.168.1.1"><br>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="admin"><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" value="password"><br>
+            <label for="vlan_id">VLAN ID:</label>
+            <input type="text" id="vlan_id" name="vlan_id" value="10"><br>
+            <label for="vlan_name">VLAN Name:</label>
+            <input type="text" id="vlan_name" name="vlan_name" value="TestVLAN"><br>
+            <label for="interface">Interface:</label>
+            <input type="text" id="interface" name="interface" value="GigabitEthernet0/1"><br>
+            <button type="submit">Create VLAN</button>
+        </form>
+        <button class="secondary" onclick="deleteVlan()">Delete VLAN</button>
+        <button class="secondary" onclick="listVlans()">List VLANs</button>
+        <pre id="result"></pre>
+    </div>
+</body>
+</html>

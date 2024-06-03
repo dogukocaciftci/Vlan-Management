@@ -4,7 +4,7 @@ This project is a VLAN management system that allows you to create, delete, and 
 
 ### Project Screenshot
 
-![Home Page](static/images/home_page.jpg)
+![Home Page](static/images/home-page.jpg)
 
 ## Requirements
 
