@@ -102,6 +102,5 @@ def list_vlans():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    # Configure logging and run the Flask application
     logging.basicConfig(level=logging.DEBUG)
     app.run(debug=True)
